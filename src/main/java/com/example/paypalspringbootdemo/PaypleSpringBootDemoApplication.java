@@ -1,4 +1,4 @@
-package com.example.payplespringbootdemo;
+package com.example.paypalspringbootdemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

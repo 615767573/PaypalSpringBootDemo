@@ -1,5 +1,7 @@
-package com.example.payplespringbootdemo.controller;
+package com.example.paypalspringbootdemo.controller;
 
+import com.example.paypalspringbootdemo.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CrudprojectController {
 
+    @Autowired
+    private OrderService orderService;
+
     @RequestMapping(value = "/test")
     public String welcome(){
-        return "Crud Spring Boot Project ! ";
+        return orderService.CreateOrder();
     }
 }

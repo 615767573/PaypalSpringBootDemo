@@ -59,6 +59,11 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.21</version>
         </dependency>
+        <dependency>
+            <groupId>com.paypal.sdk</groupId>
+            <artifactId>checkout-sdk</artifactId>
+            <version>1.0.2</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
