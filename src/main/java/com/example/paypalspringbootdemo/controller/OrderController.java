@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 
 /**
  * @Author: hsl
@@ -31,8 +30,8 @@ public class OrderController {
     }
 
     @ApiOperation(value = "查询订单详情")
-    @RequestMapping(value = "/createOrder")
-    public OrderDto createOrder(@RequestParam String orderId) {
+    @RequestMapping(value = "/ordersGet")
+    public OrderDto ordersGet(@RequestParam String orderId) {
         return orderService.ordersGet(orderId);
 
     }

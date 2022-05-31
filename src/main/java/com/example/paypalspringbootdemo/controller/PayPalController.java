@@ -7,9 +7,9 @@ import com.example.paypalspringbootdemo.utils.RequestToMapUtil;
 import com.paypal.http.HttpResponse;
 import com.paypal.orders.Payer;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.ApiOperation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

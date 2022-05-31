@@ -6,7 +6,6 @@ import com.example.paypalspringbootdemo.service.PayPalCheckoutService;
 import com.example.paypalspringbootdemo.utils.PayPalCheckoutConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@RefreshScope
 public class PayPalCheckoutServiceImpl implements PayPalCheckoutService {
 
     @Value("${paypal.receiver.email}")
