@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PaypleSpringBootDemoApplication {
+public class PayplaSpringBootDemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PaypleSpringBootDemoApplication.class, args);
+        SpringApplication.run(PayplaSpringBootDemoApplication.class, args);
     }
 
 }
