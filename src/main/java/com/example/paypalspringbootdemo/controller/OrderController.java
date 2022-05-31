@@ -1,5 +1,6 @@
 package com.example.paypalspringbootdemo.controller;
 
+import com.example.paypalspringbootdemo.dto.OrderDto;
 import com.example.paypalspringbootdemo.service.OrderService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +26,13 @@ public class OrderController {
 
     @ApiOperation(value = "创建订单")
     @RequestMapping(value = "/createOrder")
-    public String createOrder() {
-        try {
-            return orderService.createOrder();
-        } catch (IOException e) {
-            return "create order error";
-        }
+    public OrderDto createOrder() {
+        return orderService.createOrder();
     }
 
     @ApiOperation(value = "查询订单详情")
     @RequestMapping(value = "/createOrder")
-    public String createOrder(@RequestParam String orderId) {
+    public OrderDto createOrder(@RequestParam String orderId) {
         return orderService.ordersGet(orderId);
 
     }

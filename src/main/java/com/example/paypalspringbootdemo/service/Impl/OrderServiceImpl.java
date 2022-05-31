@@ -1,11 +1,13 @@
 package com.example.paypalspringbootdemo.service.Impl;
 
+import com.example.paypalspringbootdemo.dto.OrderDto;
 import com.example.paypalspringbootdemo.service.OrderService;
 import com.example.paypalspringbootdemo.utils.PayPalClient;
 import com.paypal.http.HttpResponse;
 import com.paypal.http.exceptions.SerializeException;
 import com.paypal.http.serializer.Json;
 import com.paypal.orders.*;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,8 +119,10 @@ public class OrderServiceImpl implements OrderService {
      *
      * @throws IOException
      */
+    @SneakyThrows
     @Override
-    public String createOrder() throws IOException {
+    public OrderDto createOrder() {
+        OrderDto orderDto = new OrderDto();
         OrdersCreateRequest request = new OrdersCreateRequest();
         request.header("prefer", "return=representation");
         request.requestBody(buildRequestBody());
@@ -140,33 +144,36 @@ public class OrderServiceImpl implements OrderService {
         }
         String approve = "";
         if (response.statusCode() == 201) {
-
-
             System.out.println("Status Code: " + response.statusCode());
             System.out.println("Status: " + response.result().status());
             //需要进行扣款的orderId
             System.out.println("Order ID: " + response.result().id());
-
+            orderDto.setOrderId(response.result().id());
+            orderDto.setStatus(response.result().status());
+            orderDto.setStatusCode(response.statusCode());
             log.info("Status Code = {}, Status = {}, OrderID = {}, Intent = {}", response.statusCode(), response.result().status(), response.result().id(), response.result().checkoutPaymentIntent());
             for (LinkDescription link : response.result().links()) {
                 log.info("Links-{}: {}    \tCall Type: {}", link.rel(), link.href(), link.method());
                 if (link.rel().equals("approve")) {
                     approve = link.href();
+                    orderDto.setApproveUlr(approve);
                 }
             }
             String totalAmount = response.result().purchaseUnits().get(0).amountWithBreakdown().currencyCode() + ":" + response.result().purchaseUnits().get(0).amountWithBreakdown().value();
+            orderDto.setTotalAmount(totalAmount);
             log.info("Total Amount: {}", totalAmount);
             String json = new JSONObject(new Json().serialize(response.result())).toString(4);
             log.info("createOrder response body: {}", json);
         }
-        return approve;
+        return orderDto;
     }
 
+    @SneakyThrows
     @Override
-    public String ordersGet(String orderID) {
+    public OrderDto ordersGet(String orderID) {
         // 订单id，CreateOrder 生成
         OrdersGetRequest request = new OrdersGetRequest(orderID);
-
+        OrderDto orderDto = new OrderDto();
         HttpResponse<Order> response = null;
         try {
             response = payPalClient.client().execute(request);
@@ -187,14 +194,19 @@ public class OrderServiceImpl implements OrderService {
         System.out.println("Status Code: " + response.statusCode());
         System.out.println("Status: " + response.result().status());
         System.out.println("Order id: " + response.result().id());
+        orderDto.setOrderId(response.result().id());
+        orderDto.setStatus(response.result().status());
+        orderDto.setStatusCode(response.statusCode());
         if (response.result().purchaseUnits().get(0).payments() != null) {
             List<Capture> captures = response.result().purchaseUnits().get(0).payments().captures();
+            orderDto.setCaptures(captures);
             if (captures != null) {
                 for (Capture capture : captures) {
                     System.out.println("\t订单编号= " + capture.invoiceId() + "\tCapture Id= " + capture.id() + "\tCapture status= " + capture.status() + "\tCapture amount= " + capture.amount().currencyCode() + ":" + capture.amount().value());
                 }
             }
             List<Refund> refunds = response.result().purchaseUnits().get(0).payments().refunds();
+            orderDto.setRefunds(refunds);
             if (refunds != null) {
                 for (Refund refund : refunds) {
                     System.out.println("\t售后编号= " + refund.invoiceId() + "\tRefund Id= " + refund.id() + "\tRefund status= " + refund.status() + "\tRefund amount= " + refund.amount().currencyCode() + ":" + refund.amount().value());
@@ -209,12 +221,8 @@ public class OrderServiceImpl implements OrderService {
 
         System.out.println("Full response body:");
         String json = null;
-        try {
-            json = new JSONObject(new Json().serialize(response.result())).toString(4);
-        } catch (SerializeException e) {
-            return "ERROR";
-        }
+        json = new JSONObject(new Json().serialize(response.result())).toString(4);
         System.out.println(json);
-        return json;
+        return orderDto;
     }
 }

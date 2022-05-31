@@ -1,6 +1,8 @@
 package com.example.paypalspringbootdemo.service;
 
 
+import com.example.paypalspringbootdemo.dto.OrderDto;
+
 import java.io.IOException;
 
 /**
@@ -14,7 +16,7 @@ public interface OrderService {
      * @return  paypal支付页面连接
      * @throws IOException
      */
-    public String createOrder() throws IOException;
+    public OrderDto createOrder();
 
 
     /**
@@ -23,6 +25,6 @@ public interface OrderService {
      * @param orderID 由创建订单返回
      * @return
      */
-    public String ordersGet(String orderID) ;
+    public OrderDto ordersGet(String orderID) ;
 
 }
