@@ -33,22 +33,25 @@ public class PayPalController {
     @Autowired
     private PayPalCheckoutService payPalCheckoutService;
 
+    @ApiOperation(value = "执行扣款")
     @RequestMapping(value = "/capturesOrder")
     public Payer capturesOrder(@RequestParam String orderId) {
         return captureOrder.CaptureOrder(orderId);
     }
 
+    @ApiOperation(value = "查询扣款详情")
     @RequestMapping(value = "/capturesGet")
     public HttpResponse capturesGet(@RequestParam String orderId) {
         return captureOrder.captureGet(orderId);
     }
 
-
+    @ApiOperation(value = "申请退款")
     @RequestMapping(value = "/refundOrder")
     public HttpResponse refundOrder(@RequestParam String captureOrderId) {
         return refundOrderService.refundOrder(captureOrderId);
     }
 
+    @ApiOperation(value = "查询退款详情")
     @RequestMapping(value = "/refundsGet")
     public HttpResponse refundsGet(@RequestParam String captureOrderId) {
         return refundOrderService.refundGet(captureOrderId);

@@ -1,6 +1,7 @@
 package com.example.paypalspringbootdemo.controller;
 
 import com.example.paypalspringbootdemo.service.OrderService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @ApiOperation(value = "创建订单")
     @RequestMapping(value = "/createOrder")
     public String createOrder() {
         try {
@@ -31,6 +33,7 @@ public class OrderController {
         }
     }
 
+    @ApiOperation(value = "查询订单详情")
     @RequestMapping(value = "/createOrder")
     public String createOrder(@RequestParam String orderId) {
         return orderService.ordersGet(orderId);
