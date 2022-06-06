@@ -1,5 +1,7 @@
 package com.example.paypalspringbootdemo.utils;
 
+import com.paypal.base.rest.OAuthTokenCredential;
+import com.paypal.base.rest.PayPalRESTException;
 import com.paypal.core.PayPalEnvironment;
 import com.paypal.core.PayPalHttpClient;
 import lombok.extern.slf4j.Slf4j;
@@ -7,9 +9,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * PayPalClient（请求PayPal api的工具类）
@@ -58,6 +64,24 @@ public class PayPalClient {
             }
         }
         return pretty.toString();
+    }
+
+    public String getAccessToken() throws PayPalRESTException {
+        Map<String, String> configurationMap = new HashMap<String, String>();
+        configurationMap.put("service.EndPoint",
+                "https://api.sandbox.paypal.com");
+        OAuthTokenCredential merchantTokenCredential = new OAuthTokenCredential(
+                "AfL8uRT2mrX9wgn4HmNxH35nxE8ObpHPK1zw3p7OLo5ipHeGoliscJRkCHhMiUd17Z4SJ3QXaoqaELZk", "ECv7Xgb58jMJzdwI1wpNlTMnBVLpi9kAJSSFGH1ISEBiqe6cKcwFxjId4jLTi_u38X5auOwJNIg5yn3G", configurationMap);
+        String accessToken = merchantTokenCredential.getAccessToken();
+        return accessToken;
+    }
+
+    public HttpHeaders setHttpHeaders() throws PayPalRESTException {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Content-Type", "application/json");
+        httpHeaders.set("Authorization", getAccessToken());
+        httpHeaders.set("PayPal-Request-Id", UUID.randomUUID().toString());
+        return httpHeaders;
     }
 }
  
