@@ -24,7 +24,7 @@ public class PayPalCheckoutServiceImpl implements PayPalCheckoutService {
     public String callback(@SuppressWarnings("rawtypes") Map map) {
         log.info(map.toString());
         String outTradeNo = (String) map.get("invoice");
-        String paymentStatus = (String) map.get("payment_status");
+            String paymentStatus = (String) map.get("payment_status");
         String amount = (String) map.get("mc_gross");
         String currency = (String) map.get("mc_currency");
         String paymentId = (String) map.get("txn_id");

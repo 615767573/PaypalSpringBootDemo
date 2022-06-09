@@ -1,5 +1,6 @@
 package com.example.paypalspringbootdemo.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.paypalspringbootdemo.service.CapturesService;
 import com.example.paypalspringbootdemo.service.PayPalCheckoutService;
 import com.example.paypalspringbootdemo.service.RefundOrderService;
@@ -34,25 +35,25 @@ public class PayPalController {
     private PayPalCheckoutService payPalCheckoutService;
 
     @ApiOperation(value = "执行扣款")
-    @RequestMapping(value = "/capturesOrder")
+    @RequestMapping(value = "/capturesOrder", method = RequestMethod.POST)
     public Payer capturesOrder(@RequestParam String orderId) {
         return captureOrder.CaptureOrder(orderId);
     }
 
     @ApiOperation(value = "查询扣款详情")
-    @RequestMapping(value = "/capturesGet")
+    @RequestMapping(value = "/capturesGet", method = RequestMethod.POST)
     public HttpResponse capturesGet(@RequestParam String orderId) {
         return captureOrder.captureGet(orderId);
     }
 
     @ApiOperation(value = "申请退款")
-    @RequestMapping(value = "/refundOrder")
+    @RequestMapping(value = "/refundOrder", method = RequestMethod.POST)
     public HttpResponse refundOrder(@RequestParam String captureOrderId) {
         return refundOrderService.refundOrder(captureOrderId);
     }
 
     @ApiOperation(value = "查询退款详情")
-    @RequestMapping(value = "/refundsGet")
+    @RequestMapping(value = "/refundsGet", method = RequestMethod.POST)
     public HttpResponse refundsGet(@RequestParam String captureOrderId) {
         return refundOrderService.refundGet(captureOrderId);
     }

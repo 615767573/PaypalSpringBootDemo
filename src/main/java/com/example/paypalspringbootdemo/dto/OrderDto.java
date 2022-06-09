@@ -23,6 +23,10 @@ public class OrderDto {
 
     private String totalAmount;
 
+    private String customId;
+
+    private String invoiceId;
+
     List<Capture> captures;
 
     List<Refund> refunds;

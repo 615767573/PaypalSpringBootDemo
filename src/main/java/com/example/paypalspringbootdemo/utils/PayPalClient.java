@@ -71,7 +71,7 @@ public class PayPalClient {
         configurationMap.put("service.EndPoint",
                 "https://api.sandbox.paypal.com");
         OAuthTokenCredential merchantTokenCredential = new OAuthTokenCredential(
-                "AfL8uRT2mrX9wgn4HmNxH35nxE8ObpHPK1zw3p7OLo5ipHeGoliscJRkCHhMiUd17Z4SJ3QXaoqaELZk", "ECv7Xgb58jMJzdwI1wpNlTMnBVLpi9kAJSSFGH1ISEBiqe6cKcwFxjId4jLTi_u38X5auOwJNIg5yn3G", configurationMap);
+                "AXHbJATli3D1GdVjpr2bLlIgLPxPAUlTIUhdna9oNVhJIsF3jH_p5bxgrMtBi3n87OSKWLIQtGYLb9zX", "EFPb6uk7fj_s6vdpNYN3-pqY5UjX7-6sdxkbUNJoVSV1ONlor89N0xLOgFqHBqswtQ6m9_i0LlFYa1H3", configurationMap);
         String accessToken = merchantTokenCredential.getAccessToken();
         return accessToken;
     }

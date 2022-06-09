@@ -1,5 +1,6 @@
 package com.example.paypalspringbootdemo.utils;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -45,6 +46,20 @@ public class RequestToMapUtil {
         }
         return returnMap;
     }
+
+    // Simple helper method to help you extract the headers from HttpServletRequest object.
+    private static Map < String, String > getHeadersInfo(HttpServletRequest request) {
+        Map < String, String > map = new HashMap < String, String > ();
+        @SuppressWarnings("rawtypes")
+        Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement();
+            String value = request.getHeader(key);
+            map.put(key, value);
+        }
+        return map;
+    }
+
 
     public static Map<String, Object> getPrepayMapInfo(String Str) {
         String notityXml = Str.replaceAll("</?xml>", "");

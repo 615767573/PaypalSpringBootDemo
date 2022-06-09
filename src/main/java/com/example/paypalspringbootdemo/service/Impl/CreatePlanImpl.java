@@ -22,8 +22,8 @@ public class CreatePlanImpl implements CreatePlanService {
     public static void main(String[] args) throws PayPalRESTException {
         PlanBO plan = new PlanBO();
         //CreateProducts获取的产品id
-        plan.setProduct_id("PROD-99R89170VY544021Y");
-        plan.setName("超级会员一天");
+        plan.setProduct_id("PROD-2BX17403R6529962U");
+        plan.setName("自动续费回调测试");
         plan.setDescription("自动续费");
         BillingCyclesBO billingCycles = new BillingCyclesBO();
         FrequencyBO frequency = new FrequencyBO();
@@ -35,7 +35,7 @@ public class CreatePlanImpl implements CreatePlanService {
         PricingSchemeBO pricingScheme = new PricingSchemeBO();
         FixedPriceBO fixedPrice = new FixedPriceBO();
         fixedPrice.setCurrency_code("USD");
-        fixedPrice.setValue("2");
+        fixedPrice.setValue("1");
         pricingScheme.setFixed_price(fixedPrice);
         billingCycles.setPricing_scheme(pricingScheme);
 

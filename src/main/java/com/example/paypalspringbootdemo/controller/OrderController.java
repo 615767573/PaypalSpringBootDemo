@@ -4,10 +4,7 @@ import com.example.paypalspringbootdemo.dto.OrderDto;
 import com.example.paypalspringbootdemo.service.OrderService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -24,15 +21,23 @@ public class OrderController {
     private OrderService orderService;
 
     @ApiOperation(value = "创建订单")
-    @RequestMapping(value = "/createOrder")
+    @RequestMapping(value = "/createOrder", method = RequestMethod.POST)
     public OrderDto createOrder() {
         return orderService.createOrder();
     }
 
     @ApiOperation(value = "查询订单详情")
-    @RequestMapping(value = "/ordersGet")
+    @RequestMapping(value = "/ordersGet", method = RequestMethod.POST)
     public OrderDto ordersGet(@RequestParam String orderId) {
         return orderService.ordersGet(orderId);
 
     }
+    @ApiOperation(value = "创建计费计划")
+    @PostMapping(value = "/createPlan")
+    public OrderDto createPlan(@RequestParam String orderId) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setOrderId(orderId);
+        return orderDto;
+    }
+
 }

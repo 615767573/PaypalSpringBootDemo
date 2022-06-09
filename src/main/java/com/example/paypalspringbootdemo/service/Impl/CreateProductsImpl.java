@@ -21,8 +21,8 @@ public class CreateProductsImpl implements CreateProductsService {
 
     public static void main(String[] args) throws PayPalRESTException {
         ProductsBO products = new ProductsBO();
-        products.setName("超级会员一天");
-        products.setDescription("超级会员一天");
+        products.setName("续费产品测试1");
+        products.setDescription("续费产品测试");
         products.setCategory("SOFTWARE");
         products.setType("SERVICE");
         products.setImage_url("https://member.quicktvod.com/static/img/Mexico.jpg");

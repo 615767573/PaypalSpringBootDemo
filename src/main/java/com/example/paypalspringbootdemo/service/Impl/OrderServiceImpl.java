@@ -9,6 +9,7 @@ import com.paypal.http.serializer.Json;
 import com.paypal.orders.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -57,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 生成订单主体信息
      */
-    private OrderRequest buildRequestBody() {
+    private OrderRequest buildRequestBody(String customId,String invoiceId) {
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.checkoutPaymentIntent(CAPTURE);
 
@@ -73,15 +75,15 @@ public class OrderServiceImpl implements OrderService {
         @SuppressWarnings("serial")
         PurchaseUnitRequest purchaseUnitRequest = new PurchaseUnitRequest()
                 .description("流量卡套餐")
-                .customId("P2020052514440003")
-                .invoiceId("P2020052514440003")
+                .customId(customId)
+                .invoiceId(invoiceId)
                 .amountWithBreakdown(new AmountWithBreakdown()
                         .currencyCode("USD")
-                        .value("220.00")
+                        .value("2.00")
                         // value = itemTotal + shipping + handling + taxTotal + shippingDiscount;
                         .amountBreakdown(new AmountBreakdown()
                                 // itemTotal = Item(value × quantity) + Item(value × quantity)
-                                .itemTotal(new Money().currencyCode("USD").value("220.00"))
+                                .itemTotal(new Money().currencyCode("USD").value("2.00"))
                                 .shipping(new Money().currencyCode("USD").value("0.00"))
                                 .handling(new Money().currencyCode("USD").value("0.00"))
                                 .taxTotal(new Money().currencyCode("USD").value("0.00"))
@@ -91,12 +93,12 @@ public class OrderServiceImpl implements OrderService {
                         add(new Item().name("Supernote A6").description("30G流量卡套餐")
                                 .unitAmount(new Money()
                                         .currencyCode("USD")
-                                        .value("200.00"))
+                                        .value("1.00"))
                                 .quantity("1"));
                         add(new Item().name("云存储").description("云存储无限量套餐")
                                 .unitAmount(new Money()
                                         .currencyCode("USD")
-                                        .value("20.00"))
+                                        .value("1.00"))
                                 .quantity("1"));
                     }
                 })
@@ -125,7 +127,13 @@ public class OrderServiceImpl implements OrderService {
         OrderDto orderDto = new OrderDto();
         OrdersCreateRequest request = new OrdersCreateRequest();
         request.header("prefer", "return=representation");
-        request.requestBody(buildRequestBody());
+
+        String customId = RandomStringUtils.randomAlphanumeric(16);
+        String invoiceId = RandomStringUtils.randomAlphanumeric(16);
+
+        request.requestBody(buildRequestBody(customId,invoiceId));
+        orderDto.setCustomId(customId);
+        orderDto.setInvoiceId(invoiceId);
         HttpResponse<Order> response = null;
         try {
             response = payPalClient.client().execute(request);
