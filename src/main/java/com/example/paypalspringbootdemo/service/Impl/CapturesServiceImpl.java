@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * @author hsl
@@ -101,6 +102,12 @@ public class CapturesServiceImpl implements CapturesService {
             log.error("captureGet : {}", e);
         }
         return response;
+    }
+
+    public static void main(String[] args) {
+        LongAdder shanghai ;
+//        shanghai.increment();
+//        System.out.println(shanghai);
     }
 
 

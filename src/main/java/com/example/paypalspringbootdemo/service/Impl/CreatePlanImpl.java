@@ -44,7 +44,8 @@ public class CreatePlanImpl implements CreatePlanService {
         billingCycles.setTenure_type("REGULAR");
         BillingCyclesBO[] billingCyclesArray = {billingCycles};
         plan.setBilling_cycles(billingCyclesArray);
-        //设置初始金额
+
+
         PaymentPreferencesBO paymentPreferences = new PaymentPreferencesBO();
         SetupFeeBO setupFee = new SetupFeeBO();
         setupFee.setCurrency_code("USD");

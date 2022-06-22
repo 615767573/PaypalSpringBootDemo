@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.paypalspringbootdemo.mapper.AliClientMapper">
+
+
+    <select id="getDeviceIdList" resultType="com.example.paypalspringbootdemo.domain.IotDeviceSerialsVO">
+
+        select lv_dn
+        from t_iot_device_serials t
+        where solution = 'ALILV'
+          and lv_pk = #{lv_pk} limit #{page},100
+
+
+    </select>
+</mapper>

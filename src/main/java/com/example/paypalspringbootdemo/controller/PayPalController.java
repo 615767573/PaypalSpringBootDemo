@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 public class PayPalController {
 
     @Autowired
-    private CapturesService captureOrder;
+    private CapturesService capturesService;
 
     @Autowired
     private RefundOrderService refundOrderService;
@@ -37,13 +37,13 @@ public class PayPalController {
     @ApiOperation(value = "执行扣款")
     @RequestMapping(value = "/capturesOrder", method = RequestMethod.POST)
     public Payer capturesOrder(@RequestParam String orderId) {
-        return captureOrder.CaptureOrder(orderId);
+        return capturesService.CaptureOrder(orderId);
     }
 
     @ApiOperation(value = "查询扣款详情")
     @RequestMapping(value = "/capturesGet", method = RequestMethod.POST)
     public HttpResponse capturesGet(@RequestParam String orderId) {
-        return captureOrder.captureGet(orderId);
+        return capturesService.captureGet(orderId);
     }
 
     @ApiOperation(value = "申请退款")
