@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 @Data
 public class ProductsBO implements Serializable {
+    private String id;
     private String name;
     private String description;
     private String type;

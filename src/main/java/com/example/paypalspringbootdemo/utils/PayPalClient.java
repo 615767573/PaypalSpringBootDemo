@@ -69,9 +69,9 @@ public class PayPalClient {
     public String getAccessToken() throws PayPalRESTException {
         Map<String, String> configurationMap = new HashMap<String, String>();
         configurationMap.put("service.EndPoint",
-                "https://api.sandbox.paypal.com");
+                "https://api-m.paypal.com");
         OAuthTokenCredential merchantTokenCredential = new OAuthTokenCredential(
-                "AXHbJATli3D1GdVjpr2bLlIgLPxPAUlTIUhdna9oNVhJIsF3jH_p5bxgrMtBi3n87OSKWLIQtGYLb9zX", "EFPb6uk7fj_s6vdpNYN3-pqY5UjX7-6sdxkbUNJoVSV1ONlor89N0xLOgFqHBqswtQ6m9_i0LlFYa1H3", configurationMap);
+                "Accc2b-eTxyx2dKsKdIpBvva8QXoQoa7LRW3T3Q-2tfEdJZZFvciC3v24ACUL6zkkrOhXPnRPW_2rStQ", "EKNzFPer8gFvSz9zuJGWycdc3G4dcy3Djcqw2XGuoO2TWE4VzmOsT3BSgyk1_QLGqT9Y8TsFUSasJAbk", configurationMap);
         String accessToken = merchantTokenCredential.getAccessToken();
         return accessToken;
     }

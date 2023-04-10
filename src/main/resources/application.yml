@@ -1,10 +1,10 @@
 # 配置端口
 server:
-  port: 8082
+  port: 8081
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://192.168.48.231:3306/iot
+      url: jdbc:mysql://192.168.48.231:3306/smp?useUnicode=true&characterEncoding=utf8
       username: bi-read
       password: 973zNjy!JvTQ^4h2
       driver-class-name: com.mysql.jdbc.Driver
@@ -25,3 +25,9 @@ mybatis-plus:
     db-column-underline: true
     # id自增类型(数据库id自增)
     id-type: 0
+paypal:
+  clientId: Accc2b-eTxyx2dKsKdIpBvva8QXoQoa7LRW3T3Q-2tfEdJZZFvciC3v24ACUL6zkkrOhXPnRPW_2rStQ
+  clientSecret: EKNzFPer8gFvSz9zuJGWycdc3G4dcy3Djcqw2XGuoO2TWE4VzmOsT3BSgyk1_QLGqT9Y8TsFUSasJAbk
+  mode: live
+  receiver:
+    email: ""

@@ -11,7 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -21,7 +24,7 @@ import java.util.Map;
 public class CreateSubscriptionsImpl implements CreateSubscriptionsSrvice {
     public static Map<String, String> createSubscriptions(SubscriptionsBO subscriptions) throws PayPalRESTException {
         Map<String, String> map = new HashMap<>();
-        ResponseEntity<String> responseEntity = RestTemplateUtils.post("https://api.sandbox.paypal.com/v1/billing/subscriptions", new PayPalClient().setHttpHeaders(), subscriptions, String.class);
+        ResponseEntity<String> responseEntity = RestTemplateUtils.post("https://api-m.paypal.com/v1/billing/subscriptions", new PayPalClient().setHttpHeaders(), subscriptions, String.class);
         JSONObject jsonObject = new JSONObject(responseEntity.getBody());
         JSONArray object = (JSONArray) jsonObject.get("links");
         String url = "";
@@ -59,7 +62,7 @@ public class CreateSubscriptionsImpl implements CreateSubscriptionsSrvice {
      * @throws PayPalRESTException
      */
     public static void cancelSubscriptions(String subscriptionsId) throws PayPalRESTException {
-        RestTemplateUtils.post("https://api.sandbox.paypal.com/v1/billing/subscriptions/" + subscriptionsId + "/cancel", new PayPalClient().setHttpHeaders(), "", String.class);
+        RestTemplateUtils.post("https://api.sandbox.paypal.com/v1/billing/subscriptions/" + subscriptionsId + "/cancel", new PayPalClient().setHttpHeaders(), subscriptionsId, String.class);
           }
 
 //    public static void main(String[] args) throws PayPalRESTException {
@@ -70,17 +73,19 @@ public class CreateSubscriptionsImpl implements CreateSubscriptionsSrvice {
 
     public static void main(String[] args) throws PayPalRESTException {
 
-//        querySubscriptionsCapture("I-KHPHBU2NYXTB");
+//        querySubscriptionsCapture("I-RF4R4E1HH2WL");
         SubscriptionsBO subscriptions = new SubscriptionsBO();
-        subscriptions.setPlan_id("P-5KW14887VM393702PMKPSBRI");
-        subscriptions.setStart_time("2022-06-07T18:01:00Z");
+        subscriptions.setPlan_id("P-2LE946636M743473EMMVKY5I");
+        SimpleDateFormat simpledateformatsdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.forLanguageTag("Locale.US"));
+        String start_time = simpledateformatsdf.format(System.currentTimeMillis() + 60000);
+        subscriptions.setStart_time(start_time);
         ApplicationContextBO applicationContext = new ApplicationContextBO();
         applicationContext.setBrand_name("jooan");
-        applicationContext.setCancel_url("https://www.example.com");
-        applicationContext.setReturn_url("https://www.example.com");
-        applicationContext.setLocale("zh-CN");
+        applicationContext.setCancel_url("https://usw2vas.jooaniot.com/cs-test/renew_pay_result.html");
+        applicationContext.setReturn_url("https://usw2vas.jooaniot.com/cs-test/pay_result.html");
         applicationContext.setUser_action("SUBSCRIBE_NOW");
         applicationContext.setShipping_preference("GET_FROM_FILE");
+        applicationContext.setLocale("ru-RU");
         PaymentMethodBO paymentMethod = new PaymentMethodBO();
         paymentMethod.setPayee_preferred("UNRESTRICTED");
         paymentMethod.setPayer_selected("PAYPAL");

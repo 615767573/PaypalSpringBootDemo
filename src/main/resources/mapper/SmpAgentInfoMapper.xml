@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.paypalspringbootdemo.mapper.SmpAgentInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.paypalspringbootdemo.domain.SmpAgentInfo">
+        <id column="agent_code" property="agentCode" />
+        <result column="agent_name" property="agentName" />
+        <result column="access_key" property="accessKey" />
+        <result column="secret_key" property="secretKey" />
+        <result column="client_mac_address" property="clientMacAddress" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="remark" property="remark" />
+        <result column="parent_agent_code" property="parentAgentCode" />
+        <result column="percentage_cs" property="percentageCs" />
+        <result column="percentage_fc" property="percentageFc" />
+        <result column="price_difference_method" property="priceDifferenceMethod" />
+        <result column="oa_department" property="oaDepartment" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        agent_code, agent_name, access_key, secret_key, client_mac_address, status, create_time, modify_time, remark, parent_agent_code, percentage_cs, percentage_fc, price_difference_method, oa_department
+    </sql>
+
+</mapper>

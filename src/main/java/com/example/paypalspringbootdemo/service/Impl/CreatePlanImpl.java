@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
  */
 public class CreatePlanImpl implements CreatePlanService {
     public static String createPlan(PlanBO plan) throws PayPalRESTException {
-        ResponseEntity<String> responseEntity = RestTemplateUtils.post("https://api.sandbox.paypal.com/v1/billing/plans", new PayPalClient().setHttpHeaders(), plan, String.class);
+        ResponseEntity<String> responseEntity = RestTemplateUtils.post("https://api-m.paypal.com/v1/billing/plans", new PayPalClient().setHttpHeaders(), plan, String.class);
         JSONObject jsonObject = JSONArray.parseObject(responseEntity.getBody());
         return jsonObject.get("id").toString();
     }
@@ -22,9 +22,9 @@ public class CreatePlanImpl implements CreatePlanService {
     public static void main(String[] args) throws PayPalRESTException {
         PlanBO plan = new PlanBO();
         //CreateProducts获取的产品id
-        plan.setProduct_id("PROD-2BX17403R6529962U");
-        plan.setName("自动续费回调测试");
-        plan.setDescription("自动续费");
+        plan.setProduct_id("90000009");
+        plan.setName("30天云存储套餐扣款计划");
+        plan.setDescription("30天云存储产品自动续费规则，每个月自动扣款。");
         BillingCyclesBO billingCycles = new BillingCyclesBO();
         FrequencyBO frequency = new FrequencyBO();
         //设置付款频率
@@ -55,5 +55,6 @@ public class CreatePlanImpl implements CreatePlanService {
         String id = createPlan(plan);
         System.out.println(id);
     }
+
 }
 

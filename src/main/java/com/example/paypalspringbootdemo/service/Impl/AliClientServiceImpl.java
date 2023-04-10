@@ -1,14 +1,10 @@
 package com.example.paypalspringbootdemo.service.Impl;
 
 import com.alibaba.cloudapi.sdk.model.ApiResponse;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.example.paypalspringbootdemo.domain.IoTApiRequest;
 import com.example.paypalspringbootdemo.domain.IotDeviceSerialsVO;
 import com.alibaba.cloudapi.sdk.model.HttpClientBuilderParams;
-import com.example.paypalspringbootdemo.dto.GetTokenResponse;
 import com.example.paypalspringbootdemo.mapper.AliClientMapper;
 import com.example.paypalspringbootdemo.service.AliClientService;
 import com.example.paypalspringbootdemo.utils.JsonUtils;
@@ -22,7 +18,6 @@ import org.springframework.util.CollectionUtils;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Supplier;
 
@@ -30,7 +25,7 @@ import java.util.function.Supplier;
 @Service
 public class AliClientServiceImpl extends ServiceImpl<AliClientMapper, IotDeviceSerialsVO> implements AliClientService {
     private static final String API_VERSION = "1.0.1";
-    private static final String ALI_HOST = "api.link.aliyun.com";
+    private static final String ALI_HOST = "us-east-1.api-iot.aliyuncs.com";
     private static final String GET_CLOUD_TOKEN_URL = "/cloud/token";
 
     @Autowired
@@ -90,12 +85,13 @@ public class AliClientServiceImpl extends ServiceImpl<AliClientMapper, IotDevice
     }
 
     //    @SneakyThrows
-    private void aliiotClient(String deviceName, List<String> errorDervice) {
+    @Override
+    public void aliiotClient(String deviceName, List<String> errorDervice) {
         //-----------------------------------------------------
         IoTApiRequest request1 = new IoTApiRequest();
         request1.setApiVer("1.0.1");
-        request1.putParam("productKey", "a1po0r02m1v");
-        request1.putParam("deviceName", deviceName);
+        request1.putParam("productKey", "a1ki8gSU0iP");
+        request1.putParam("deviceName", "wqYIbrxF04jl5vMwoIpK");
 
 
         ApiResponse response = null;
@@ -135,7 +131,116 @@ public class AliClientServiceImpl extends ServiceImpl<AliClientMapper, IotDevice
             errorDervice.add(deviceName);
         }
 
+        getUserResion();
+    }
 
+    @Override
+    public void commodityQuery(String deviceName, List<String> errorDervice) {
+        IoTApiRequest request = new IoTApiRequest();
+        request.setApiVer("1.0.4");
+//        request.setCloudToken("129805f4335746f3a585fc5a0df38ddb");
+//        request.putParam("openId", "e11a43e08bf034afab540a5c747b44d3");
+//        id -> de85f2de-7315-4a03-941a-4a85293e7155
+        ApiResponse response = null;
+        try {
+            response = syncApiClient().postBody("api.link.aliyun.com", "/vision/customer/cloudstorage/commodity/query", request, true);
+        } catch (UnsupportedEncodingException e) {
+            log.error("UnsupportedEncodingException : {}", e);
+        }
+        if (200 == response.getCode()) {
+            Map body = JsonUtils.jsonToPojo(new String(response.getBody()), Map.class);
+            Object data = body.get("data");
+         log.info("data:{}",data);
+        }
+    }
+
+    @Override
+    public void cloudstorageCommodityBuy(String deviceName, List<String> errorDervice) {
+        IoTApiRequest request = new IoTApiRequest();
+        request.setApiVer("1.0.7");
+        request.setCloudToken("ca030d6bef6541a3bf2ad186ceb6df75");
+        request.putParam("userName", "35d430fc95773b2092472ced39768840");
+        request.putParam("iotId", "jsrFDZs9F7G53zxn6BwK000000");
+        request.putParam("specification", "eventResource_3");
+        request.putParam("commodityCode", "ilopLVCloudResource");
+        request.putParam("copies", "1");
+//        id -> de85f2de-7315-4a03-941a-4a85293e7155
+        ApiResponse response = null;
+        try {
+            response = syncApiClient().postBody(ALI_HOST, "/vision/customer/cloudstorage/commodity/buy", request, true);
+        } catch (UnsupportedEncodingException e) {
+            log.error("UnsupportedEncodingException : {}", e);
+        }
+        if (200 == response.getCode()) {
+            Map body = JsonUtils.jsonToPojo(new String(response.getBody()), Map.class);
+            Object data = body.get("data");
+            log.info("data:{}",data);
+        }
+    }
+
+    @Override
+    public void freecloudstorageConsume(String deviceName, List<String> errorDervice) {
+        IoTApiRequest request = new IoTApiRequest();
+        request.setApiVer("1.0.4");
+        request.putParam("iotId", "jsrFDZs9F7G53zxn6BwK000000");
+        request.setCloudToken("ca030d6bef6541a3bf2ad186ceb6df75");
+//        id -> de85f2de-7315-4a03-941a-4a85293e7155
+        ApiResponse response = null;
+        try {
+            response = syncApiClient().postBody(ALI_HOST, "/vision/customer/freecloudstorage/consume", request, true);
+        } catch (UnsupportedEncodingException e) {
+            log.error("UnsupportedEncodingException : {}", e);
+        }
+        if (200 == response.getCode()) {
+            Map body = JsonUtils.jsonToPojo(new String(response.getBody()), Map.class);
+            Object data = body.get("data");
+            log.info("data:{}",data);
+        }
+    }
+
+
+
+    // 用户区域查询
+    public void getUserResion(){
+        IoTApiRequest request = new IoTApiRequest();
+        request.setApiVer("1.0.1");
+//        request.setCloudToken("17ff38b3cefd4f12b61b379eda9d1a68");
+        request.putParam("openId", "e11a43e08bf034afab540a5c747b44d3");
+//        id -> de85f2de-7315-4a03-941a-4a85293e7155
+        ApiResponse response = null;
+        try {
+            response = syncApiClient().postBody(ALI_HOST, "/living/cloud/user/region/get", request, true);
+        } catch (UnsupportedEncodingException e) {
+            log.error("UnsupportedEncodingException : {}", e);
+        }
+        if (200 == response.getCode()) {
+            Map body = JsonUtils.jsonToPojo(new String(response.getBody()), Map.class);
+            String data = (String)body.get("data");
+            System.out.println(data);
+        }
+        deviceBindingUser();
+    }
+
+    // 根据设备ID查询绑定用户
+//    /living/user/device/binding/query
+    public void deviceBindingUser(){
+        IoTApiRequest request = new IoTApiRequest();
+        request.setApiVer("1.0.0");
+//        request.setCloudToken("29c0932714de437bb87e33ca02d16ae6");
+        request.putParam("iotId", "wqYIbrxF04jl5vMwoIpK000000");
+        request.putParam("pageNo", "1");
+        request.putParam("pageSize", "10");
+        ApiResponse response = null;
+        try {
+            response = syncApiClient().postBody(ALI_HOST, "/living/user/device/binding/query", request, true);
+        } catch (UnsupportedEncodingException e) {
+            log.error("UnsupportedEncodingException : {}", e);
+        }
+        if (200 == response.getCode()) {
+            Map body = JsonUtils.jsonToPojo(new String(response.getBody()), Map.class);
+            String data = (String)body.get("data");
+            System.out.println(data);
+        }
     }
 
     @SneakyThrows
